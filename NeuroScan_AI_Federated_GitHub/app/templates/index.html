@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NeuroScan AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p class="eyebrow">FEDERATED BRAIN MRI RESEARCH PROTOTYPE</p>
+      <h1>NeuroScan AI</h1>
+      <p>Upload a brain MRI image for binary Tumor / No-Tumor model inference and Grad-CAM visualization.</p>
+    </header>
+
+    <section class="card warning">
+      <strong>Research use only.</strong> This prototype is not validated for clinical diagnosis or treatment decisions.
+    </section>
+
+    <section class="card">
+      <form method="post" enctype="multipart/form-data">
+        <label for="mri">MRI image</label>
+        <input id="mri" name="mri" type="file" accept=".png,.jpg,.jpeg" required>
+        <button type="submit">Analyze MRI</button>
+      </form>
+      {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    </section>
+
+    {% if result %}
+    <section class="card">
+      <h2>{{ result.label }}</h2>
+      <div class="metrics">
+        <div><span>Confidence</span><strong>{{ "%.2f"|format(result.confidence * 100) }}%</strong></div>
+        <div><span>Tumor probability</span><strong>{{ "%.2f"|format(result.tumor_probability * 100) }}%</strong></div>
+      </div>
+      <div class="images">
+        <figure><img src="{{ image_url }}" alt="Uploaded MRI"><figcaption>Uploaded MRI</figcaption></figure>
+        <figure><img src="{{ gradcam_url }}" alt="Grad-CAM"><figcaption>Grad-CAM explanation</figcaption></figure>
+      </div>
+      <p class="small">Grad-CAM indicates image regions influencing the model prediction; it is not a segmentation mask.</p>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
