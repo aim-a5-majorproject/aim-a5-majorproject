@@ -1,0 +1,24 @@
+# Principal dependencies used by the notebook; Colab may already provide some.
+kagglehub
+kaggle
+pillow
+imagehash
+opencv-python-headless
+scikit-learn
+matplotlib
+seaborn
+tqdm
+timm
+grad-cam
+scipy
+streamlit
+fastapi
+uvicorn[standard]
+python-multipart
+pandas
+numpy
+torch
+torchvision
+nibabel
+flwr
+opacus

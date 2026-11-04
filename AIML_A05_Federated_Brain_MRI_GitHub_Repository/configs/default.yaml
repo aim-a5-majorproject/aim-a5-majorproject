@@ -1,0 +1,40 @@
+project:
+  name: AIML-A05
+  task: four_class_brain_mri_classification
+  classes: [glioma, meningioma, pituitary, no_tumor]
+  simulated_clients: [Hospital_1, Hospital_2, Hospital_3]
+
+runtime:
+  primary_environment: google_colab
+  device: auto
+  seed: 42
+
+data:
+  image_size: 224
+  batch_size: 24
+  kaggle_datasets:
+    Hospital_1: masoudnickparvar/brain-tumor-mri-dataset
+    Hospital_2: sartajbhuvaji/brain-tumor-classification-mri
+    Hospital_3: mohiburrahmanrifat/brain-tumor-mri
+  patient_ids_guaranteed: false
+  duplicate_detection: perceptual_hash
+  split_unit: image_unless_reliable_case_ids_exist
+
+models:
+  primary: resnet50
+  alternatives: [efficientnet_b0, vgg16]
+  feature_extract: true
+
+federated:
+  algorithms: [FedAvg, FedProx, FedBN, FedAdam, FedYogi]
+  scenarios: [natural_source, iid, dirichlet]
+  dirichlet_alpha: [0.1, 0.5, 1.0]
+
+experiments:
+  full_research_run: false
+  optional_brats: false
+  repeated_seeds: [11, 22, 33]
+
+safety:
+  clinical_use: false
+  kaggle_credentials_commit: false
